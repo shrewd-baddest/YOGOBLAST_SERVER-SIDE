@@ -16,7 +16,7 @@ include('connect.php');
  
 $pro_id=$p_id['product_id'];
 $sql="
-select image_url,price,products_name,weight_ml,  description 
+select *
  from products
  where products_id=?";
 
@@ -26,6 +26,7 @@ select image_url,price,products_name,weight_ml,  description
        die("Prepare failed: " . mysqli_error($conn));
    }
 
+   
  mysqli_stmt_bind_param($outcome,'i',$pro_id);
  mysqli_stmt_execute($outcome);
  // Get the result
@@ -35,11 +36,8 @@ select image_url,price,products_name,weight_ml,  description
        die("Get result failed: " . mysqli_error($conn));
    }
 
-$store=[];
- if(mysqli_num_rows($rezults)>0){
-while($rows=mysqli_fetch_assoc($rezults))
-$store[]=$rows;
- }
+ 
+$store=mysqli_fetch_assoc($rezults);
 echo json_encode($store);
 mysqli_close($conn);
 ?>
